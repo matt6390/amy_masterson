@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My App</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <script src="https://unpkg.com/vue/dist/vue.js"></script>
+  <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.js"></script>
+  <script src="index.js" defer></script>
+</head>
+<body>
+  <div id="vue-app">
+    <header id="header">
+      <a href="/#/" class="text-center"><h1>Amy Masterson</h1></a>
+
+      <nav>
+        <ul class="nav justify-content-end">
+          <li class="nav-item">
+            <a class="nav-link" href="/#/mosaics">Mosaics</a>
+          </li> 
+        </ul>
+      </nav>
+    </header>
+
+    <router-view></router-view>
+
+  </div>
+
+
+
+
+
+
+
+
+
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+</html>
+
+<template id="home-page">
+  <div class="vue-component">
+    <div class="container">
+
+      <div class="row">
+        <h1>{{ message }}</h1>
+      </div>
+      
+
+    </div>
+  </div>
+</template>
+
+<template id="mosaics-page">
+  <div class="vue-component">
+    <div class="container">
+      <div class="row">
+        <a href="/#/mosaics-create">
+          <button class="btn btn-primary">Add Mosaic</button>
+        </a>
+      </div>
+      <div class="row">
+        <h1>{{ message }}</h1>
+      </div>
+      <div class="row">
+        <div class="col-md-3">
+          <button class="btn btn-primary">Sort Mosaics</button>
+        </div>
+        <div class="col-md-9">
+          <div class="card-deck">
+            <div v-for="mosaic in mosaics" class="col-md-4">
+              <div class="card">
+                <h4>{{ mosaic.name }}</h4>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+
+
+      </div>
+    </div>
+  </div>
+</template>
+
+<template id="mosaics-create-page">
+  <div class="vue-component">
+    <div class="container">
+      <div class="row">
+        <h1>{{ message }}</h1>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4">
+          <ul>
+            <li class="text-danger" v-for="error in errors">{{ error }}</li>
+          </ul>
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">New Mosaic</h5>
+
+              <form>
+                <div class="form-group">
+                  <label>Name:</label>
+                  <input class="form-control" placeholder="Enter name..." v-model="name"></input>
+                </div>
+                <div class="form-group">
+                  <label>Description:</label>
+                  <textarea class="form-control" placeholder="Enter a description for the piece" v-model="description"></textarea>
+                </div>
+                <div class="form-group">
+                  <label>Price:</label>
+                  <input class="form-control" placeholder="Enter Price" v-model="price"></input>
+                </div>
+                <button class="btn btn-primary" v-on:click="submitMosaic()">Add Card</button>
+              </form>
+
+
+
+
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6"></div>
+      </div>
+    </div>
+  </div>
+</template>
+
+
+
+
+
+
+
+

@@ -1,0 +1,1 @@
+json.partial! @mosaic, partial: 'mosaic', as: :mosaic
