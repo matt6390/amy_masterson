@@ -15,7 +15,8 @@ class MosaicsController < ApplicationController
     @mosaic = Mosaic.new(
                           name: params[:name],
                           description: params[:description],
-                          price: params[:price]
+                          price: params[:price],
+                          picture_url: params[:picture_url]
                         )
     if @mosaic.save
       render 'show.json.jbuilder'

@@ -3,26 +3,31 @@
 <head>
   <meta charset="UTF-8">
   <title>Amy Masterson</title>
-  <!-- The core Firebase JS SDK is always required and must be listed first -->
+   <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <!-- <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-app.js"></script> -->
   <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-app.js"></script>
 
-  <!-- TODO: Add SDKs for Firebase products that you want to use
-       https://firebase.google.com/docs/web/setup#config-web-app -->
+  <!-- Add Firebase products that you want to use -->
+  <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-storage.js"></script>
 
-  <script>
-    // Your web app's Firebase configuration
-    var firebaseConfig = {
-      apiKey: "AIzaSyBZVeuhpbS5b5FJ0JWoIR0TQnLJdhEH_5o",
-      authDomain: "amy-masterson.firebaseapp.com",
-      databaseURL: "https://amy-masterson.firebaseio.com",
-      projectId: "amy-masterson",
-      storageBucket: "amy-masterson.appspot.com",
-      messagingSenderId: "972858584094",
-      appId: "1:972858584094:web:a198bcda931e5559"
-    };
-    // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
-  </script>
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#config-web-app -->
+
+<script>
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyBZVeuhpbS5b5FJ0JWoIR0TQnLJdhEH_5o",
+    authDomain: "amy-masterson.firebaseapp.com",
+    databaseURL: "https://amy-masterson.firebaseio.com",
+    projectId: "amy-masterson",
+    storageBucket: "amy-masterson.appspot.com",
+    messagingSenderId: "972858584094",
+    appId: "1:972858584094:web:55b6ff7730ca7095"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+</script>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <script src="https://unpkg.com/vue/dist/vue.js"></script>
   <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
@@ -46,13 +51,6 @@
     <router-view></router-view>
 
   </div>
-
-
-
-
-
-
-
 
 
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
@@ -140,7 +138,15 @@
             </div>
           </div>
         </div>
-        <div class="col-md-6"></div>
+        <div class="col-md-8">
+          <div class="card">
+            <img class="card-img-top" src="">
+              <div class="card-body">
+                <input class="form-control" type="file" id="mosaicPic" v-on:change="readUrl()">
+              </div>
+            </img>
+          </div>
+        </div>
       </div>
     </div>
   </div>

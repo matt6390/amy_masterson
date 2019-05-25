@@ -24,6 +24,7 @@ gem 'jbuilder', '~> 2.5'
 gem 'bcrypt', '~> 3.1.7'
 gem 'knock'
 
+gem	'pry'
 gem	'seed_dump'
 
 # Use ActiveStorage variant

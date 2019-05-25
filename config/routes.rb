@@ -6,4 +6,11 @@ Rails.application.routes.draw do
   post "/mosaics" => 'mosaics#create'
   patch "/mosaics/:id" => 'mosaics#update'
   delete "/mosaics/:id" => 'mosaics#destroy'
+
+  get "/urls" => 'urls#index'
+  get "/urls/last" => 'urls#last'
+  get "/urls/:id" => 'urls#show'
+  post "/urls" => 'urls#create'
+  patch "/urls/:id" => 'urls#update'
+  delete "/urls/:id" => 'urls#destroy'
 end
