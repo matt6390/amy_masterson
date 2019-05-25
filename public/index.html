@@ -28,6 +28,16 @@
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
 </script>
+
+<link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Custom fonts for this template -->
+<link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+<link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+<!-- Custom styles for this template -->
+<link href="css/clean-blog.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <script src="https://unpkg.com/vue/dist/vue.js"></script>
   <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
@@ -36,19 +46,54 @@
 </head>
 <body>
   <div id="vue-app">
-    <header id="header">
-      <a href="/#/" class="text-center"><h1>Amy Masterson</h1></a>
+    <header>
+      <div class="container">
+        <h1 class="float-center"><a href="/#/">Amy Masterson</a></h1>
 
-      <nav>
-        <ul class="nav justify-content-end">
-          <li class="nav-item">
-            <a class="nav-link" href="/#/mosaics">Mosaics</a>
-          </li> 
-        </ul>
-      </nav>
+        <nav class="navbar navbar-expand-md navbar-light bg-light">
+          <a href="/#/mosaics" class="navbar-brand">Mosaics</a>
+          <a href="/#/fiddles" class="navbar-brand">Fiddle</a>
+        </nav>
+      </div>
     </header>
 
     <router-view></router-view>
+
+    <footer>
+      <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <ul class="list-inline text-center">
+            <li class="list-inline-item">
+              <a href="#">
+                <span class="fa-stack fa-lg">
+                  <i class="fas fa-circle fa-stack-2x"></i>
+                  <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+                </span>
+              </a>
+            </li>
+            <li class="list-inline-item">
+              <a href="https://www.facebook.com/amy.masterson.735">
+                <span class="fa-stack fa-lg">
+                  <i class="fas fa-circle fa-stack-2x"></i>
+                  <i class="fab fa-facebook-f fa-stack-1x fa-inverse"></i>
+                </span>
+              </a>
+            </li>
+            <li class="list-inline-item">
+              <a href="https://www.github.com/matt6390">
+                <span class="fa-stack fa-lg">
+                  <i class="fas fa-circle fa-stack-2x"></i>
+                  <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                </span>
+              </a>
+            </li>
+          </ul>
+          <p class="copyright text-muted">Copyright &copy; Amy Masterson 2019</p>
+        </div>
+      </div>
+    </div>
+    </footer>
 
   </div>
 
@@ -65,8 +110,7 @@
 
       <div class="row">
         <h1>{{ message }}</h1>
-      </div>
-      
+      </div>  
 
     </div>
   </div>
@@ -88,14 +132,38 @@
           <button class="btn btn-primary">Sort Mosaics</button>
         </div>
         <div class="col-md-9">
-          <div class="card-deck">
-            <div v-for="mosaic in mosaics" class="col-md-4">
-              <div class="card">
-                <h4>{{ mosaic.name }}</h4>
+          <div class="card-group">
+            <div v-for="mosaic in mosaics" v-on:click="viewMosaic(mosaic.id)" style="max-height: 400px" class="card col-md-4">
+              <img class="card-img-top" v-bind:src="mosaic.picture_url"></img>
+              <div class="card-body" style="overflow: scroll">
+                <h5 class="card-title">{{ mosaic.name }}</h5>
+                <p class="card-text">{{ mosaic.description }}</p>
               </div>
+              <div class="card-footer">${{ mosaic.price }}</div>
             </div>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<template id="mosaics-show-page">
+  <div class="vue-component">
+    <div class="container">
+      <h1>{{ message }}</h1>
+
+      <div class="row">
+        <div class="col-md-6 card">
+          <img class="card-img" v-bind:src="mosaic.picture_url"></img>
+        </div>
+        <div class="col-md-6">
+          <h2>{{ mosaic.name }}</h2>
+          <p>Price: ${{ mosaic.price }}</p>
+          <ul class="list-group">
+            <li class="list-group-item">{{ mosaic.description }}</li>
+          </ul>
+        </div>    
       </div>
     </div>
   </div>

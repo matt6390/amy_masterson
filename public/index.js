@@ -30,9 +30,36 @@ var MosaicsPage = {
 
     }.bind(this));
   },
+  methods: {
+    viewMosaic: function(id) {
+      console.log(id);
+      router.push("/mosaics/" + id);
+    }
+  },
+  computed: {}
+};
+
+
+var MosaicsShowPage = {
+  template: "#mosaics-show-page",
+  data: function() {
+    return {
+      message: "Welcome to the show page",
+      mosaic: {}
+    };
+  },
+  created: function() {
+    axios.get("/mosaics/" + this.$route.params.id).then(function(response) {
+      this.mosaic = response.data;
+    }.bind(this));
+  }, 
   methods: {},
   computed: {}
 };
+
+
+
+
 var MosaicsCreatePage = {
   template: "#mosaics-create-page",
   data: function() {
@@ -61,11 +88,9 @@ var MosaicsCreatePage = {
           };
 
           axios.post("/mosaics", params).then(function(response) {
-            console.log(response.data);
-            // router.push("/mosaics");
+            router.push("/mosaics");
           }.bind(this)).catch(function(error) {
             this.errors = error.response.data.errors;
-            console.log(error.response.data.errors);
           }.bind(this));
         }.bind(this));
       } else {
@@ -99,8 +124,6 @@ var MosaicsCreatePage = {
 
       upload.then(function(snap) {
         var url = snap.ref.getDownloadURL().then(function(url) {
-          console.log(url);
-
           //saving url in database for when mosaic is created
           var params = {storage_url: url};
           axios.post("/urls", params).then(function(response) {
@@ -117,6 +140,7 @@ var MosaicsCreatePage = {
 var router = new VueRouter({
   routes: [{ path: "/", component: HomePage },
     { path: "/mosaics", component: MosaicsPage },
+    { path: "/mosaics/:id", component: MosaicsShowPage },
     { path: "/mosaics-create", component: MosaicsCreatePage }
   ],
   scrollBehavior: function(to, from, savedPosition) {
