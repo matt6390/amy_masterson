@@ -55,14 +55,12 @@ var MosaicsCreatePage = {
       };
 
       axios.post("/mosaics", params).then(function(response) {
-        router.push("/mosaics");
+        console.log(response.data);
+        // router.push("/mosaics");
       }.bind(this)).catch(function(error) {
         this.errors = error.response.data.errors;
         console.log(error.response.data.errors);
       }.bind(this));
-
-
-      console.log("Added");
     }
   },
   computed: {}

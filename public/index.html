@@ -2,7 +2,27 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>My App</title>
+  <title>Amy Masterson</title>
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-app.js"></script>
+
+  <!-- TODO: Add SDKs for Firebase products that you want to use
+       https://firebase.google.com/docs/web/setup#config-web-app -->
+
+  <script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+      apiKey: "AIzaSyBZVeuhpbS5b5FJ0JWoIR0TQnLJdhEH_5o",
+      authDomain: "amy-masterson.firebaseapp.com",
+      databaseURL: "https://amy-masterson.firebaseio.com",
+      projectId: "amy-masterson",
+      storageBucket: "amy-masterson.appspot.com",
+      messagingSenderId: "972858584094",
+      appId: "1:972858584094:web:a198bcda931e5559"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+  </script>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <script src="https://unpkg.com/vue/dist/vue.js"></script>
   <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
@@ -78,11 +98,6 @@
             </div>
           </div>
         </div>
-
-
-
-
-
       </div>
     </div>
   </div>
@@ -117,9 +132,8 @@
                   <label>Price:</label>
                   <input class="form-control" placeholder="Enter Price" v-model="price"></input>
                 </div>
-                <button class="btn btn-primary" v-on:click="submitMosaic()">Add Card</button>
+                <a class="btn btn-primary" v-on:click="submitMosaic()">Add Card</a>
               </form>
-
 
 
 
