@@ -10,7 +10,7 @@ var HomePage = {
   created: function() {},
   methods: {},
   computed: {}
-};
+}; 
 
 var MosaicsPage = {
   template: "#mosaics-page",
@@ -57,9 +57,6 @@ var MosaicsShowPage = {
   computed: {}
 };
 
-
-
-
 var MosaicsCreatePage = {
   template: "#mosaics-create-page",
   data: function() {
@@ -69,7 +66,10 @@ var MosaicsCreatePage = {
       description: "",
       price: "",
       pictureUrl: false,
-      errors: []
+      errors: [],
+      file: "",
+      showPreview: false,
+      imagePreview: ""
     };
   },
   created: function() {},
@@ -80,11 +80,50 @@ var MosaicsCreatePage = {
         var url = axios.get('/urls/last').then(function(response) {
           var url = response.data.storage_url;
 
+
+
+          this.file = this.$refs.file.files[0];
+          let reader = new FileReader();
+
+          reader.addEventListener("load", function() {
+            this.showPreview = true;
+            this.imagePreview = reader.result;
+          }.bind(this), false);
+
+          if( this.file ){
+            /*
+              Ensure the file is an image file.
+            */
+            if ( /\.(jpe?g|png|gif)$/i.test( this.file.name ) ) {
+              /*
+                Fire the readAsDataURL method which will read the file in and
+                upon completion fire a 'load' event which we will listen to and
+                display the image in the preview.
+              */
+              reader.readAsDataURL( this.file );
+            }
+          }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
           var params = {
             name: this.name,
             description: this.description,
             price: this.price,
-            picture_url: url
+            picture_url: url,
+            image: this.file
           };
 
           axios.post("/mosaics", params).then(function(response) {
@@ -95,6 +134,58 @@ var MosaicsCreatePage = {
         }.bind(this));
       } else {
         this.errors = ["No Picture Added"];
+      }
+    },
+    submitFile: function() {
+      let formData = new FormData();
+      formData.append('name', this.name);
+      formData.append('description', this.description);
+      formData.append('price', this.price);
+      formData.append('image', this.file);
+
+      axios.post("/mosaics", formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        }
+      ).then(function() {
+        console.log("success");    
+        router.push('/mosaics');    
+      }).catch(function() {
+        console.log("failed")
+      })
+
+      console.log("fired");
+    },
+
+    handleFileUpload: function() {
+
+      // set the local file variable to what the user has selected
+
+      this.file = this.$refs.file.files[0];
+
+      // Initialize a File Reader object
+
+      let reader = new FileReader();
+
+      reader.addEventListener("load", function() {
+        this.showPreview = true;
+        this.imagePreview = reader.result;
+      }.bind(this), false);
+
+      if( this.file ){
+        /*
+          Ensure the file is an image file.
+        */
+        if ( /\.(jpe?g|png|gif)$/i.test( this.file.name ) ) {
+          /*
+            Fire the readAsDataURL method which will read the file in and
+            upon completion fire a 'load' event which we will listen to and
+            display the image in the preview.
+          */
+          reader.readAsDataURL( this.file );
+        }
       }
     },
 
@@ -137,11 +228,84 @@ var MosaicsCreatePage = {
   computed: {}
 };
 
+var TestPage = {
+  template: "#test-page",
+  data: function() {
+    return {
+      file: "",
+      showPreview: false,
+      imagePreview: "",
+      message: "Welcome to the test page"
+    };
+  },
+  created: function() {},
+  methods: {
+    handleFileUpload: function() {
+
+      // set the local file variable to what the user has selected
+
+      this.file = this.$refs.file.files[0];
+
+      // Initialize a File Reader object
+
+      let reader = new FileReader();
+
+      reader.addEventListener("load", function() {
+        this.showPreview = true;
+        this.imagePreview = reader.result;
+      }.bind(this), false);
+
+      if( this.file ){
+        /*
+          Ensure the file is an image file.
+        */
+        if ( /\.(jpe?g|png|gif)$/i.test( this.file.name ) ) {
+          /*
+            Fire the readAsDataURL method which will read the file in and
+            upon completion fire a 'load' event which we will listen to and
+            display the image in the preview.
+          */
+          reader.readAsDataURL( this.file );
+        }
+      }
+
+
+
+      console.log(this.imagePreview);
+    },
+
+    submitFile: function() {
+
+      let formData = new FormData();
+
+      formData.append('name', '123');
+      formData.append('description', '123');
+      formData.append('price', 123);
+      formData.append('picture_url', this.file);
+
+      axios.post("/mosaics", formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        }
+      ).then(function() {
+        console.log("success");        
+      }).catch(function() {
+        console.log("failed")
+      })
+
+    }
+  },
+  computed: {}
+}; 
+
 var router = new VueRouter({
   routes: [{ path: "/", component: HomePage },
     { path: "/mosaics", component: MosaicsPage },
     { path: "/mosaics/:id", component: MosaicsShowPage },
-    { path: "/mosaics-create", component: MosaicsCreatePage }
+    { path: "/mosaics-create", component: MosaicsCreatePage },
+    { path: "/test", component: TestPage }
   ],
   scrollBehavior: function(to, from, savedPosition) {
     return { x: 0, y: 0 };

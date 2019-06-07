@@ -134,6 +134,7 @@
         <div class="col-md-9">
           <div class="card-group">
             <div v-for="mosaic in mosaics" v-on:click="viewMosaic(mosaic.id)" style="max-height: 400px" class="card col-md-4">
+              
               <img class="card-img-top" v-bind:src="mosaic.picture_url"></img>
               <div class="card-body" style="overflow: scroll">
                 <h5 class="card-title">{{ mosaic.name }}</h5>
@@ -154,8 +155,11 @@
       <h1>{{ message }}</h1>
 
       <div class="row">
-        <div class="col-md-6 card">
+       <!--  <div class="col-md-6 card">
           <img class="card-img" v-bind:src="mosaic.picture_url"></img>
+        </div> -->
+        <div class="col-md-6 polaroid">
+          <img v-bind:src="mosaic.picture_url" style="width:100%">
         </div>
         <div class="col-md-6">
           <h2>{{ mosaic.name }}</h2>
@@ -198,7 +202,7 @@
                   <label>Price:</label>
                   <input class="form-control" placeholder="Enter Price" v-model="price"></input>
                 </div>
-                <a class="btn btn-primary" v-on:click="submitMosaic()">Add Card</a>
+                <a class="btn btn-primary" v-on:click="submitFile()">Add Card</a>
               </form>
 
 
@@ -210,7 +214,9 @@
           <div class="card">
             <img class="card-img-top" src="">
               <div class="card-body">
-                <input class="form-control" type="file" id="mosaicPic" v-on:change="readUrl()">
+                <img v-bind:src="imagePreview" v-show="showPreview" style="width: 100%" />
+
+                <input class="form-control" type="file" ref="file" accept="image/*" v-on:change="handleFileUpload()" id="mosaicPic" v-on:change="readUrl()">
               </div>
             </img>
           </div>
@@ -219,6 +225,24 @@
     </div>
   </div>
 </template>
+
+
+<template id="test-page">
+  <div class="vue-component">
+    <div class="container">
+      <div class="large-12 medium-12 small-12 cell">
+        <label>
+          <input type="file" id="file" ref="file" accept="image/*" v-on:change="handleFileUpload()">
+        </label>
+        <img v-bind:src="imagePreview" v-show="showPreview"/>
+        <button v-on:click="submitFile()">Submit</button>
+      </div> 
+    </div>
+  </div>
+</template>
+
+
+
 
 
 

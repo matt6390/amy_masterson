@@ -18,6 +18,8 @@ class MosaicsController < ApplicationController
                           price: params[:price],
                           picture_url: params[:picture_url]
                         )
+    @mosaic.image.attach(params[:image])
+    # binding.pry   
     if @mosaic.save
       render 'show.json.jbuilder'
     else
@@ -44,6 +46,15 @@ class MosaicsController < ApplicationController
     @mosaic.delete
     render json: {message: "Mosaic Removed"}
   end
+
+
+private
+
+  def post_params
+    params.require(:post).permit(:name, :description, :price, :picture)
+  end
+
+
 end
 
 
