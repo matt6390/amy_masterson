@@ -74,76 +74,16 @@ var MosaicsCreatePage = {
   },
   created: function() {},
   methods: {
-    submitMosaic: function() {
-      if (this.pictureUrl === true) {
-        this.errors = [];
-        var url = axios.get('/urls/last').then(function(response) {
-          var url = response.data.storage_url;
-
-
-
-          this.file = this.$refs.file.files[0];
-          let reader = new FileReader();
-
-          reader.addEventListener("load", function() {
-            this.showPreview = true;
-            this.imagePreview = reader.result;
-          }.bind(this), false);
-
-          if( this.file ){
-            /*
-              Ensure the file is an image file.
-            */
-            if ( /\.(jpe?g|png|gif)$/i.test( this.file.name ) ) {
-              /*
-                Fire the readAsDataURL method which will read the file in and
-                upon completion fire a 'load' event which we will listen to and
-                display the image in the preview.
-              */
-              reader.readAsDataURL( this.file );
-            }
-          }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-          var params = {
-            name: this.name,
-            description: this.description,
-            price: this.price,
-            picture_url: url,
-            image: this.file
-          };
-
-          axios.post("/mosaics", params).then(function(response) {
-            router.push("/mosaics");
-          }.bind(this)).catch(function(error) {
-            this.errors = error.response.data.errors;
-          }.bind(this));
-        }.bind(this));
-      } else {
-        this.errors = ["No Picture Added"];
-      }
-    },
+    
     submitFile: function() {
-      let formData = new FormData();
-      formData.append('name', this.name);
-      formData.append('description', this.description);
-      formData.append('price', this.price);
-      formData.append('image', this.file);
+      // setting params for the mosaic
+      let params = new FormData();
+      params.append('name', this.name);
+      params.append('description', this.description);
+      params.append('price', this.price);
+      params.append('image', this.file);
 
-      axios.post("/mosaics", formData,
+      axios.post("/mosaics", params,
         {
           headers: {
             'Content-Type': 'multipart/form-data'
@@ -159,35 +99,7 @@ var MosaicsCreatePage = {
       console.log("fired");
     },
 
-    handleFileUpload: function() {
-
-      // set the local file variable to what the user has selected
-
-      this.file = this.$refs.file.files[0];
-
-      // Initialize a File Reader object
-
-      let reader = new FileReader();
-
-      reader.addEventListener("load", function() {
-        this.showPreview = true;
-        this.imagePreview = reader.result;
-      }.bind(this), false);
-
-      if( this.file ){
-        /*
-          Ensure the file is an image file.
-        */
-        if ( /\.(jpe?g|png|gif)$/i.test( this.file.name ) ) {
-          /*
-            Fire the readAsDataURL method which will read the file in and
-            upon completion fire a 'load' event which we will listen to and
-            display the image in the preview.
-          */
-          reader.readAsDataURL( this.file );
-        }
-      }
-    },
+    
 
     readUrl: function() {
       var pictureFile = document.getElementById('mosaicPic').files[0];
@@ -228,6 +140,78 @@ var MosaicsCreatePage = {
   computed: {}
 };
 
+var LoginPage = {
+  template: "#login-page",
+  data: function() {
+    return {
+      email: "",
+      password: "",
+      errors: []
+    };
+  },
+  methods: {
+    submit: function() {
+      var params = {
+        auth: { email: this.email, password: this.password }
+      };
+      axios
+        .post("/user_token", params)
+        .then(function(response) {
+          axios.defaults.headers.common["Authorization"] =
+            "Bearer " + response.data.jwt;
+          localStorage.setItem("jwt", response.data.jwt);
+          router.push("/");
+        })
+        .catch(
+          function(error) {
+            this.errors = ["Invalid email or password."];
+            this.email = "";
+            this.password = "";
+          }.bind(this)
+        );
+    }
+  }
+};
+
+var SignupPage = {
+  template: "#signup-page",
+  data: function() {
+    return {
+      email: "",
+      password: "",
+      passwordConfirmation: "",
+      errors: []
+    };
+  },
+  methods: {
+    submit: function() {
+      var params = {
+        email: this.email,
+        password: this.password,
+        password_confirmation: this.passwordConfirmation
+      };
+      axios
+        .post("/users", params)
+        .then(function(response) {
+          router.push("/login");
+        })
+        .catch(
+          function(error) {
+            this.errors = error.response.data.errors;
+          }.bind(this)
+        );
+    }
+  }
+};
+
+var LogoutPage = {
+  created: function() {
+    axios.defaults.headers.common["Authorization"] = undefined;
+    localStorage.removeItem("jwt");
+    router.push("/");
+  }
+};
+
 var TestPage = {
   template: "#test-page",
   data: function() {
@@ -240,6 +224,68 @@ var TestPage = {
   },
   created: function() {},
   methods: {
+    // submitMosaic: function() {
+    //   if (this.pictureUrl === true) {
+    //     this.errors = [];
+    //     var url = axios.get('/urls/last').then(function(response) {
+    //       var url = response.data.storage_url;
+
+
+
+    //       this.file = this.$refs.file.files[0];
+    //       let reader = new FileReader();
+
+    //       reader.addEventListener("load", function() {
+    //         this.showPreview = true;
+    //         this.imagePreview = reader.result;
+    //       }.bind(this), false);
+
+    //       if( this.file ){
+    //         /*
+    //           Ensure the file is an image file.
+    //         */
+    //         if ( /\.(jpe?g|png|gif)$/i.test( this.file.name ) ) {
+              
+    //             Fire the readAsDataURL method which will read the file in and
+    //             upon completion fire a 'load' event which we will listen to and
+    //             display the image in the preview.
+              
+    //           reader.readAsDataURL( this.file );
+    //         }
+    //       }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //       var params = {
+    //         name: this.name,
+    //         description: this.description,
+    //         price: this.price,
+    //         picture_url: url,
+    //         image: this.file
+    //       };
+
+    //       axios.post("/mosaics", params).then(function(response) {
+    //         router.push("/mosaics");
+    //       }.bind(this)).catch(function(error) {
+    //         this.errors = error.response.data.errors;
+    //       }.bind(this));
+    //     }.bind(this));
+    //   } else {
+    //     this.errors = ["No Picture Added"];
+    //   }
+    // },
     handleFileUpload: function() {
 
       // set the local file variable to what the user has selected
@@ -268,12 +314,7 @@ var TestPage = {
           reader.readAsDataURL( this.file );
         }
       }
-
-
-
-      console.log(this.imagePreview);
     },
-
     submitFile: function() {
 
       let formData = new FormData();
@@ -294,7 +335,6 @@ var TestPage = {
       }).catch(function() {
         console.log("failed")
       })
-
     }
   },
   computed: {}
@@ -303,16 +343,29 @@ var TestPage = {
 var router = new VueRouter({
   routes: [{ path: "/", component: HomePage },
     { path: "/mosaics", component: MosaicsPage },
+    { path: "/login", component: LoginPage },
+    { path: "/signup", component: SignupPage },
+    { path: "/signout", component: SignoutPage },
     { path: "/mosaics/:id", component: MosaicsShowPage },
     { path: "/mosaics-create", component: MosaicsCreatePage },
     { path: "/test", component: TestPage }
   ],
   scrollBehavior: function(to, from, savedPosition) {
-    return { x: 0, y: 0 };
+    if (savedPosition) {
+      return savedPosition
+    } else {
+      return { x: 0, y: 0 }
+    }
   }
 });
 
 var app = new Vue({
   el: "#vue-app",
-  router: router
+  router: router,
+  created: function() {
+    var jwt = localStorage.getItem("jwt");
+    if (jwt) {
+      axios.defaults.headers.common["Authorization"] = jwt;
+    }
+  }
 });

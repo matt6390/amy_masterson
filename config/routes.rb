@@ -13,4 +13,7 @@ Rails.application.routes.draw do
   post "/urls" => 'urls#create'
   patch "/urls/:id" => 'urls#update'
   delete "/urls/:id" => 'urls#destroy'
+
+  post "/users" => 'users#create'
+  post 'user_token' => 'user_token#create'
 end
