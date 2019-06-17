@@ -345,7 +345,7 @@ var router = new VueRouter({
     { path: "/mosaics", component: MosaicsPage },
     { path: "/login", component: LoginPage },
     { path: "/signup", component: SignupPage },
-    { path: "/signout", component: SignoutPage },
+    { path: "/logout", component: LogoutPage },
     { path: "/mosaics/:id", component: MosaicsShowPage },
     { path: "/mosaics-create", component: MosaicsCreatePage },
     { path: "/test", component: TestPage }
