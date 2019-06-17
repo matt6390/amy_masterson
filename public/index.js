@@ -21,14 +21,21 @@ var MosaicsPage = {
     };
   },
   created: function() {
-    axios.get("/mosaics").then(function(response) {
-      var mosaics = response.data;
-      mosaics.forEach(function(mosaic) {
-        this.mosaics.push(mosaic);
-      }.bind(this));
-      console.log(response.data);
+    axios.get("/users/amy").then(function(response) {
+      axios.get("/mosaics").then(function(response) {
+        var mosaics = response.data;
+        mosaics.forEach(function(mosaic) {
+          this.mosaics.push(mosaic);
+        }.bind(this));
+        console.log(response.data);
 
+      }.bind(this));
+    }.bind(this)).catch(function(errors) {
+      router.push("/login");
     }.bind(this));
+
+
+    
   },
   methods: {
     viewMosaic: function(id) {
@@ -49,8 +56,12 @@ var MosaicsShowPage = {
     };
   },
   created: function() {
-    axios.get("/mosaics/" + this.$route.params.id).then(function(response) {
-      this.mosaic = response.data;
+    axios.get("/users/amy").then(function(response) {
+      axios.get("/mosaics/" + this.$route.params.id).then(function(response) {
+        this.mosaic = response.data;
+      }.bind(this));
+    }.bind(this)).catch(function(errors) {
+      router.push("/login");
     }.bind(this));
   }, 
   methods: {},
@@ -72,7 +83,13 @@ var MosaicsCreatePage = {
       imagePreview: ""
     };
   },
-  created: function() {},
+  created: function() {
+    axios.get("/users/amy").then(function(response) {
+      
+    }.bind(this)).catch(function(errors) {
+      router.push("/login");
+    }.bind(this));
+  },
   methods: {
     
     submitFile: function() {
@@ -208,7 +225,7 @@ var LogoutPage = {
   created: function() {
     axios.defaults.headers.common["Authorization"] = undefined;
     localStorage.removeItem("jwt");
-    router.push("/");
+    // router.push("/");
   }
 };
 
