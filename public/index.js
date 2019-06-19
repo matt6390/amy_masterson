@@ -58,7 +58,6 @@ var MosaicsPage = {
   },
   methods: {
     viewMosaic: function(id) {
-      console.log(id);
       router.push("/mosaics/" + id);
     }
   },
@@ -106,7 +105,7 @@ var MosaicsCreatePage = {
       price: "",
       pictureUrl: false,
       errors: [],
-      file: "",
+      file: null,
       showPreview: false,
       imagePreview: ""
     };
@@ -127,7 +126,9 @@ var MosaicsCreatePage = {
       params.append('name', this.name);
       params.append('description', this.description);
       params.append('price', this.price);
-      params.append('image', this.file);
+      if (this.file !== null) {
+        params.append('image', this.file);
+      }
 
       axios.post("/mosaics", params,
         {
@@ -138,8 +139,10 @@ var MosaicsCreatePage = {
       ).then(function() { 
         router.push('/mosaics');    
       }).catch(function(error) {
+        this.errors = [];
         console.log(error.response.data.errors);
-      })
+        this.errors = error.response.data.errors;
+      }.bind(this))
     },
 
     handleFileUpload: function() {
