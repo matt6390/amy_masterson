@@ -135,8 +135,8 @@
           <button class="btn btn-primary">Sort Mosaics</button>
         </div>
         <div class="col-md-9">
-          <div class="card-group">
-            <div v-for="mosaic in mosaics" v-on:click="viewMosaic(mosaic.id)" style="max-height: 400px" class="card col-md-4">
+          <div class="card-columns">
+            <div v-for="mosaic in mosaics" v-on:click="viewMosaic(mosaic.id)" class="card">
               
               <img class="card-img-top" v-bind:src="mosaic.picture_url"></img>
               <div class="card-body" style="overflow: scroll">
@@ -156,13 +156,10 @@
   <div class="vue-component">
     <div class="container">
       <h1>{{ message }}</h1>
-
+      <button v-on:click="remove($route.params.id)" class="btn-danger">Remove Mosaic</button>
       <div class="row">
-       <!--  <div class="col-md-6 card">
-          <img class="card-img" v-bind:src="mosaic.picture_url"></img>
-        </div> -->
         <div class="col-md-6 polaroid">
-          <img v-bind:src="mosaic.picture_url" style="width:100%">
+          <img v-bind:src="mosaic.picture_url" alt="nothing.jpg" style="width:100%">
         </div>
         <div class="col-md-6">
           <h2>{{ mosaic.name }}</h2>
@@ -219,7 +216,7 @@
               <div class="card-body">
                 <img v-bind:src="imagePreview" v-show="showPreview" style="width: 100%" />
 
-                <input class="form-control" type="file" ref="file" accept="image/*" v-on:change="handleFileUpload()" id="mosaicPic" v-on:change="readUrl()">
+                <input class="form-control" type="file" ref="file" accept="image/*" v-on:change="handleFileUpload()" id="mosaicPic">
               </div>
             </img>
           </div>

@@ -7,7 +7,13 @@ var HomePage = {
       message: "Welcome to Amy's Website"
     };
   },
-  created: function() {},
+  created: function() {
+    axios.get("/users/amy").then(function(response) {
+      
+    }.bind(this)).catch(function(errors) {
+      router.push("/login");
+    }.bind(this));
+  },
   methods: {},
   computed: {}
 }; 
@@ -31,7 +37,7 @@ var MosaicsPage = {
 
       }.bind(this));
     }.bind(this)).catch(function(errors) {
-      router.push("/login");
+      router.push("/");
     }.bind(this));
 
 
@@ -61,10 +67,18 @@ var MosaicsShowPage = {
         this.mosaic = response.data;
       }.bind(this));
     }.bind(this)).catch(function(errors) {
-      router.push("/login");
+      router.push("/");
     }.bind(this));
   }, 
-  methods: {},
+  methods: {
+    remove: function(id) {
+      axios.delete("/mosaics/" + id).then(function(response) {
+        router.push("/mosaics");
+      }.bind(this)).catch(function(error) {
+        console.log(error.response.data);
+      })
+    }
+  },
   computed: {}
 };
 
@@ -87,7 +101,7 @@ var MosaicsCreatePage = {
     axios.get("/users/amy").then(function(response) {
       
     }.bind(this)).catch(function(errors) {
-      router.push("/login");
+      router.push("/");
     }.bind(this));
   },
   methods: {
@@ -106,53 +120,36 @@ var MosaicsCreatePage = {
             'Content-Type': 'multipart/form-data'
           }
         }
-      ).then(function() {
-        console.log("success");    
+      ).then(function() { 
         router.push('/mosaics');    
-      }).catch(function() {
-        console.log("failed")
+      }).catch(function(error) {
+        console.log(error.response.data.errors);
       })
-
-      console.log("fired");
     },
 
-    
-
-    readUrl: function() {
-      var pictureFile = document.getElementById('mosaicPic').files[0];
-
-      // Connecting to firebase to store the picture
-      var ref = firebase.storage().ref();
-      var upload = ref.child(pictureFile.name).put(pictureFile);
-
-      //provides information on upload progress (usefull for really big picture files)
-      upload.on('state_changed', function(snapshot) {
-        //this is used to display the upload progress of the image
-        var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        console.log('Upload is ' + progress + '% done');
-        // document.getElementById('picProgressBar').style.width = progress + "%";
-        // document.getElementById('picProgressBar').innerHTML = progress.toFixed(2) + "%";
-        switch (snapshot.state) {
-        case firebase.storage.TaskState.PAUSED: // or 'paused'
-          console.log('Upload is paused');
-          break;
-        case firebase.storage.TaskState.RUNNING: // or 'running'
-          // console.log('Upload is running');
-          break;
+    handleFileUpload: function() {
+      // set the local file variable to what the user has selected
+      this.file = this.$refs.file.files[0];
+      // Initialize a File Reader object
+      let reader = new FileReader();
+      reader.addEventListener("load", function() {
+        this.showPreview = true;
+        this.imagePreview = reader.result;
+      }.bind(this), false);
+      if( this.file ){
+        /*
+          Ensure the file is an image file.
+        */
+        if ( /\.(jpe?g|png|gif)$/i.test( this.file.name ) ) {
+          /*
+            Fire the readAsDataURL method which will read the file in and
+            upon completion fire a 'load' event which we will listen to and
+            display the image in the preview.
+          */
+          reader.readAsDataURL( this.file );
         }
-      });
-
-      upload.then(function(snap) {
-        var url = snap.ref.getDownloadURL().then(function(url) {
-          //saving url in database for when mosaic is created
-          var params = {storage_url: url};
-          axios.post("/urls", params).then(function(response) {
-            this.pictureUrl = response.data;
-          }.bind(this));
-        });
-      });
-      this.pictureUrl = true;
-    }
+      }
+    },
   },
   computed: {}
 };
@@ -225,7 +222,7 @@ var LogoutPage = {
   created: function() {
     axios.defaults.headers.common["Authorization"] = undefined;
     localStorage.removeItem("jwt");
-    // router.push("/");
+    router.push("/");
   }
 };
 

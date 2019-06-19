@@ -15,15 +15,21 @@ class MosaicsController < ApplicationController
     @mosaic = Mosaic.new(
                           name: params[:name],
                           description: params[:description],
-                          price: params[:price],
-                          picture_url: params[:picture_url]
+                          price: params[:price]
                         )
-    @mosaic.image.attach(params[:image])
     # binding.pry   
-    if @mosaic.save
-      render 'show.json.jbuilder'
+
+
+    if params[:image].size > 15000000 #limits image size to 15mb max (still kinda big tbh)
+      render json: {errors: "Picture to big"}, status: :unprocessable_entity
     else
-      render json: {errors: @mosaic.errors.full_messages}, status: :unprocessable_entity
+      @mosaic.image.attach(params[:image])
+      if @mosaic.save
+        render 'show.json.jbuilder'
+      else
+        render json: {errors: @mosaic.errors.full_messages}, status: :unprocessable_entity
+      end
+
     end
   end
 
