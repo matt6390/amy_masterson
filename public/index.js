@@ -9,10 +9,24 @@ var HomePage = {
   },
   created: function() {
     axios.get("/users/amy").then(function(response) {
+      // checking to see if its not you
       
     }.bind(this)).catch(function(errors) {
       router.push("/login");
     }.bind(this));
+  },
+  methods: {},
+  computed: {}
+}; 
+
+var AboutPage = {
+  template: "#about-page",
+  data: function() {
+    return {
+      message: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+    };
+  },
+  created: function() {
   },
   methods: {},
   computed: {}
@@ -28,13 +42,12 @@ var MosaicsPage = {
   },
   created: function() {
     axios.get("/users/amy").then(function(response) {
+      // checking to see if its not you
       axios.get("/mosaics").then(function(response) {
         var mosaics = response.data;
         mosaics.forEach(function(mosaic) {
           this.mosaics.push(mosaic);
         }.bind(this));
-        console.log(response.data);
-
       }.bind(this));
     }.bind(this)).catch(function(errors) {
       router.push("/");
@@ -63,6 +76,7 @@ var MosaicsShowPage = {
   },
   created: function() {
     axios.get("/users/amy").then(function(response) {
+      // checking to see if its not you
       axios.get("/mosaics/" + this.$route.params.id).then(function(response) {
         this.mosaic = response.data;
       }.bind(this));
@@ -99,6 +113,7 @@ var MosaicsCreatePage = {
   },
   created: function() {
     axios.get("/users/amy").then(function(response) {
+      // checking to see if its not you
       
     }.bind(this)).catch(function(errors) {
       router.push("/");
@@ -357,6 +372,7 @@ var TestPage = {
 var router = new VueRouter({
   routes: [{ path: "/", component: HomePage },
     { path: "/mosaics", component: MosaicsPage },
+    { path: "/about", component: AboutPage },
     { path: "/login", component: LoginPage },
     { path: "/signup", component: SignupPage },
     { path: "/logout", component: LogoutPage },
