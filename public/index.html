@@ -54,8 +54,8 @@
         <h1 class="text-center"><a href="/#/">Amy Masterson</a></h1>
 
         <div class="navbar float float-middle navbar-expand-md navbar-light bg-light">
-          <a href="/#/mosaics" class="navbar-brand">Mosaics</a>
-          <a href="/#/fiddles" class="navbar-brand">Fiddle</a>
+          <a href="/#/amy/mosaics" class="navbar-brand">Mosaics</a>
+          <a href="/#/amy/fiddles" class="navbar-brand">Fiddle</a>
           <a href="/#/about" class="navbar-brand">About</a>
         </div>
       </div>
@@ -171,11 +171,60 @@
   </div>
 </template>
 
+<template id="amy-mosaics-page">
+  <div class="vue-component">
+    <div class="container">
+      <h1>Mosaics Page</h1>
+      <div class="row">
+        <h1>{{ message }}</h1>
+      </div>
+      <div class="row">
+        <div class="col-md-3">
+          <!-- <button class="btn btn-primary">Sort Mosaics</button> -->
+        </div>
+        <div class="col-md-9">
+          <div class="card-columns">
+            <div v-for="mosaic in mosaics" v-on:click="viewMosaic(mosaic.id)" class="card">
+              
+              <img class="card-img-top" v-bind:src="mosaic.picture_url"></img>
+              <div class="card-body" style="overflow: scroll">
+                <h5 class="card-title">{{ mosaic.name }}</h5>
+                <p class="card-text">{{ mosaic.description }}</p>
+              </div>
+              <div class="card-footer">${{ mosaic.price }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
 <template id="mosaics-show-page">
   <div class="vue-component">
     <div class="container">
       <h1>{{ message }}</h1>
       <button v-on:click="remove($route.params.id)" class="btn-danger">Remove Mosaic</button>
+      <div class="row">
+        <div class="col-md-6 polaroid">
+          <img v-bind:src="mosaic.picture_url" alt="nothing.jpg" style="width:100%">
+        </div>
+        <div class="col-md-6">
+          <h2>{{ mosaic.name }}</h2>
+          <p>Price: ${{ mosaic.price }}</p>
+          <ul class="list-group">
+            <li class="list-group-item">{{ mosaic.description }}</li>
+          </ul>
+        </div>    
+      </div>
+    </div>
+  </div>
+</template>
+
+<template id="amy-mosaics-show-page">
+  <div class="vue-component">
+    <div class="container">
+      <h1>{{ message }}</h1>
       <div class="row">
         <div class="col-md-6 polaroid">
           <img v-bind:src="mosaic.picture_url" alt="nothing.jpg" style="width:100%">

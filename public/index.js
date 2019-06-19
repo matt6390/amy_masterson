@@ -12,7 +12,7 @@ var HomePage = {
       // checking to see if its not you
       
     }.bind(this)).catch(function(errors) {
-      router.push("/login");
+      // router.push("/login");
     }.bind(this));
   },
   methods: {},
@@ -50,7 +50,7 @@ var MosaicsPage = {
         }.bind(this));
       }.bind(this));
     }.bind(this)).catch(function(errors) {
-      router.push("/");
+      router.push("/amy/mosaics");
     }.bind(this));
 
 
@@ -64,6 +64,38 @@ var MosaicsPage = {
   computed: {}
 };
 
+var AmyMosaicsPage = {
+  template: "#amy-mosaics-page",
+  data: function() {
+    return {
+      message: "Welcome to the mosaics page",
+      mosaics: []
+    };
+  },
+  created: function() {
+
+    axios.get("/users/amy").then(function(response) {
+      // checking to see if its not you
+      router.push("/mosaics");
+      //sends admin user to the admin portions
+    }.bind(this)).catch(function(errors) {
+      //or loads the basic stuff for a normal user
+      axios.get("/mosaics").then(function(response) {
+        var mosaics = response.data;
+        mosaics.forEach(function(mosaic) {
+          this.mosaics.push(mosaic);
+        }.bind(this));
+      }.bind(this));
+    }.bind(this));
+
+  },
+  methods: {
+    viewMosaic: function(id) {
+      router.push("/amy/mosaics/" + id);
+    }
+  },
+  computed: {}
+};
 
 var MosaicsShowPage = {
   template: "#mosaics-show-page",
@@ -80,7 +112,7 @@ var MosaicsShowPage = {
         this.mosaic = response.data;
       }.bind(this));
     }.bind(this)).catch(function(errors) {
-      router.push("/");
+      router.push("/amy/mosaics/" + this.$route.params.id);
     }.bind(this));
   }, 
   methods: {
@@ -91,6 +123,30 @@ var MosaicsShowPage = {
         console.log(error.response.data);
       })
     }
+  },
+  computed: {}
+};
+
+var AmyMosaicsShowPage = {
+  template: "#amy-mosaics-show-page",
+  data: function() {
+    return {
+      message: "Welcome to the show page",
+      mosaic: {}
+    };
+  },
+  created: function() {
+    axios.get("/users/amy").then(function(response) {
+      // checking to see if its not you
+      router.push("/mosaics/" + this.$route.params.id);     
+    }.bind(this)).catch(function(errors) {
+      axios.get("/mosaics/" + this.$route.params.id).then(function(response) {
+        this.mosaic = response.data;
+      }.bind(this));
+    }.bind(this));
+
+  }, 
+  methods: {
   },
   computed: {}
 };
@@ -374,11 +430,13 @@ var TestPage = {
 
 var router = new VueRouter({
   routes: [{ path: "/", component: HomePage },
+    { path: "/amy/mosaics", component: AmyMosaicsPage },
     { path: "/mosaics", component: MosaicsPage },
     { path: "/about", component: AboutPage },
     { path: "/login", component: LoginPage },
     { path: "/signup", component: SignupPage },
     { path: "/logout", component: LogoutPage },
+    { path: "/amy/mosaics/:id", component: AmyMosaicsShowPage },
     { path: "/mosaics/:id", component: MosaicsShowPage },
     { path: "/mosaics-create", component: MosaicsCreatePage },
     { path: "/test", component: TestPage }
