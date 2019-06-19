@@ -1,0 +1,26 @@
+
+/* home-page	*/
+.home-img {
+	width: 100%;
+	height: auto;
+}
+
+/*about page*/
+.about-text {
+	padding: 5px;
+}
+
+ .amy-pic {
+  width: 30%;
+  max-height: 200px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  float: right;
+}
+
+
+/*show-page*/
+.polaroid {
+  width: 80%;
+  background-color: white;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}

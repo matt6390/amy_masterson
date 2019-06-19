@@ -8,12 +8,12 @@ var HomePage = {
     };
   },
   created: function() {
-    axios.get("/users/amy").then(function(response) {
-      // checking to see if its not you
+    // axios.get("/users/amy").then(function(response) {
+    //   // checking to see if its not you
       
-    }.bind(this)).catch(function(errors) {
-      // router.push("/login");
-    }.bind(this));
+    // }.bind(this)).catch(function(errors) {
+    //   // router.push("/login");
+    // }.bind(this));
   },
   methods: {},
   computed: {}
