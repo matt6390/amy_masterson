@@ -27,7 +27,7 @@ gem 'knock'
 gem	'pry'
 gem	'seed_dump'
 
-gem	'aws-sdk'
+gem	'aws-sdk-s3'
 
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'

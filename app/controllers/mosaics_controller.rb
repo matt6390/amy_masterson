@@ -11,6 +11,15 @@ class MosaicsController < ApplicationController
     render 'show.json.jbuilder'
   end
 
+  def test
+    s3 = Aws::S3::Client.new(
+      access_key_id: Rails.application.credentials.aws[:access_key_id],
+      secret_access_key: Rails.application.credentials.aws[:secret_access_key]
+    )
+
+    render json: {message: s3}
+  end
+
   def create
     @mosaic = Mosaic.new(
                           name: params[:name],
